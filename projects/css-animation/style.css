@@ -1,0 +1,140 @@
+/* ========================================
+   CSS 动效实验室 - 样式表
+   ======================================== */
+
+/* 基础重置 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; }
+
+/* 头部 */
+.header { text-align: center; padding: 60px 24px 40px; }
+.header h1 { font-size: 2.4rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+.header p { color: #888; font-size: 1rem; }
+
+/* 区域标题 */
+.section-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 32px; padding-left: 16px; border-left: 3px solid #667eea; color: #ccc; }
+
+/* 通用容器 */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+section { padding: 40px 0; }
+
+/* ====== Loading 动画 ====== */
+.loading-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; }
+.loading-card { background: #1a1a2e; border-radius: 16px; padding: 40px 24px; display: flex; flex-direction: column; align-items: center; gap: 20px; border: 1px solid #2a2a3e; }
+.loading-card span { font-size: 0.8rem; color: #888; }
+
+/* 旋转圆环 */
+.spinner { width: 48px; height: 48px; border: 4px solid #2a2a3e; border-top-color: #667eea; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 弹跳点 */
+.dots { display: flex; gap: 8px; }
+.dots span { width: 12px; height: 12px; background: #764ba2; border-radius: 50%; animation: bounce 1.4s ease-in-out infinite; }
+.dots span:nth-child(2) { animation-delay: 0.16s; }
+.dots span:nth-child(3) { animation-delay: 0.32s; }
+@keyframes bounce { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+
+/* 脉冲环 */
+.pulse-ring { width: 48px; height: 48px; border-radius: 50%; background: #667eea; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
+
+/* 进度条 */
+.progress-bar { width: 120px; height: 6px; background: #2a2a3e; border-radius: 3px; overflow: hidden; }
+.progress-bar::after { content: ''; display: block; width: 40%; height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 3px; animation: progress 1.5s ease-in-out infinite; }
+@keyframes progress { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+
+/* 翻转方块 */
+.flip-square { width: 40px; height: 40px; background: #764ba2; animation: flip 1.2s ease-in-out infinite; }
+@keyframes flip { 0% { transform: perspective(200px) rotateX(0); } 50% { transform: perspective(200px) rotateX(180deg); } 100% { transform: perspective(200px) rotateX(360deg); } }
+
+/* ====== Hover 效果 ====== */
+.hover-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+.hover-card { position: relative; height: 180px; border-radius: 16px; overflow: hidden; cursor: pointer; background: #1a1a2e; border: 1px solid #2a2a3e; display: flex; align-items: center; justify-content: center; }
+.hover-card span { position: relative; z-index: 2; font-weight: 600; font-size: 0.95rem; }
+
+/* 缩放效果 */
+.hover-scale::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, #667eea, #764ba2); opacity: 0; transition: opacity 0.4s, transform 0.4s; transform: scale(0.8); border-radius: 16px; }
+.hover-scale:hover::before { opacity: 1; transform: scale(1); }
+.hover-scale:hover span { color: white; }
+
+/* 边框描边 */
+.hover-border { border: 2px solid transparent; background-clip: padding-box; }
+.hover-border::after { content: ''; position: absolute; inset: -2px; border-radius: 16px; background: linear-gradient(135deg, #667eea, #764ba2); z-index: -1; opacity: 0; transition: opacity 0.4s; }
+.hover-border:hover::after { opacity: 1; }
+.hover-border:hover span { background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* 底部滑入 */
+.hover-slide { overflow: hidden; }
+.hover-slide::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: linear-gradient(135deg, #667eea, #764ba2); transition: height 0.4s ease; border-radius: 0 0 16px 16px; }
+.hover-slide:hover::before { height: 100%; }
+.hover-slide:hover span { color: white; }
+
+/* 光泽扫过 */
+.hover-shine::before { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: left 0.6s; }
+.hover-shine:hover::before { left: 120%; }
+.hover-shine:hover { background: linear-gradient(135deg, #667eea, #764ba2); }
+.hover-shine:hover span { color: white; }
+
+/* ====== 文字动画 ====== */
+.text-demos { display: flex; flex-direction: column; gap: 32px; }
+.text-demo { background: #1a1a2e; border-radius: 16px; padding: 32px; border: 1px solid #2a2a3e; }
+.text-demo-label { font-size: 0.75rem; color: #667eea; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* 打字效果 */
+.typewriter { font-size: 1.5rem; font-weight: 700; overflow: hidden; white-space: nowrap; border-right: 3px solid #667eea; animation: typing 3s steps(20) infinite, blink 0.6s step-end infinite alternate; max-width: fit-content; }
+@keyframes typing { 0%, 100% { width: 0; } 50%, 80% { width: 100%; } }
+@keyframes blink { 50% { border-color: transparent; } }
+
+/* 渐变文字 */
+.gradient-text { font-size: 2rem; font-weight: 800; background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientShift 4s ease infinite; }
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+/* 波浪文字 */
+.wave-text { font-size: 1.8rem; font-weight: 700; display: flex; gap: 2px; }
+.wave-text span { display: inline-block; animation: wave 1.5s ease-in-out infinite; }
+@keyframes wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+/* ====== 视差滚动 ====== */
+.parallax-section { height: 300px; border-radius: 20px; overflow: hidden; position: relative; background: linear-gradient(135deg, #1a1a2e, #2a2a4e); display: flex; align-items: center; justify-content: center; border: 1px solid #2a2a3e; }
+.parallax-layer { position: absolute; border-radius: 50%; opacity: 0.15; }
+.parallax-layer:nth-child(1) { width: 300px; height: 300px; background: #667eea; top: -80px; left: -60px; animation: float1 8s ease-in-out infinite; }
+.parallax-layer:nth-child(2) { width: 200px; height: 200px; background: #764ba2; bottom: -50px; right: -30px; animation: float2 6s ease-in-out infinite; }
+.parallax-layer:nth-child(3) { width: 150px; height: 150px; background: #f093fb; top: 50%; left: 50%; animation: float3 10s ease-in-out infinite; }
+@keyframes float1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, 20px); } }
+@keyframes float2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-20px, -30px); } }
+@keyframes float3 { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-30%, -60%); } }
+.parallax-text { position: relative; z-index: 2; font-size: 1.5rem; font-weight: 700; color: rgba(255,255,255,0.8); text-align: center; }
+
+/* 返回按钮 */
+.back-link { position: fixed; bottom: 24px; right: 24px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(102,126,234,0.4); transition: all 0.3s; z-index: 99; }
+.back-link:hover { transform: scale(1.1); }
+
+/* ========================================
+   响应式适配
+   ======================================== */
+@media (max-width: 900px) {
+    .loading-grid { grid-template-columns: repeat(2, 1fr); }
+    .hover-grid { grid-template-columns: repeat(2, 1fr); }
+    .parallax-section { height: 240px; }
+}
+
+@media (max-width: 600px) {
+    .header { padding: 40px 20px 30px; }
+    .header h1 { font-size: 1.8rem; }
+    .header p { font-size: 0.85rem; }
+    .loading-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .loading-card { padding: 28px 16px; }
+    .hover-grid { grid-template-columns: 1fr; }
+    .hover-card { height: 140px; }
+    .gradient-text { font-size: 1.4rem; }
+    .wave-text { font-size: 1.3rem; }
+    .typewriter { font-size: 1.1rem; }
+    .text-demo { padding: 20px; }
+    .section-title { font-size: 1.1rem; }
+    section { padding: 30px 0; }
+    .parallax-section { height: 200px; }
+    .parallax-text { font-size: 1.1rem; }
+    .parallax-layer:nth-child(1) { width: 180px; height: 180px; }
+    .parallax-layer:nth-child(2) { width: 120px; height: 120px; }
+    .parallax-layer:nth-child(3) { width: 90px; height: 90px; }
+}

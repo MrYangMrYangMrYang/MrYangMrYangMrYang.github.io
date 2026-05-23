@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据仪表盘</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header">
+        <h1>📊 <span>Data</span>Panel</h1>
+        <div class="header-right">
+            <span class="status-dot"></span>
+            <span class="header-time" id="currentTime"></span>
+        </div>
+    </div>
+
+    <!-- 仪表盘 -->
+    <div class="dashboard">
+        <!-- 统计卡片 -->
+        <div class="stat-card">
+            <div class="stat-label">总访问量</div>
+            <div class="stat-value" style="color: #38bdf8;">12,847</div>
+            <div class="stat-change up">↑ 12.5% 较上周</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">活跃用户</div>
+            <div class="stat-value" style="color: #a78bfa;">3,421</div>
+            <div class="stat-change up">↑ 8.3% 较上周</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">转化率</div>
+            <div class="stat-value" style="color: #34d399;">4.7%</div>
+            <div class="stat-change down">↓ 1.2% 较上周</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">总收入</div>
+            <div class="stat-value" style="color: #fbbf24;">¥89.2K</div>
+            <div class="stat-change up">↑ 15.7% 较上周</div>
+        </div>
+
+        <!-- 折线图 -->
+        <div class="chart-card span-3">
+            <h3>访问趋势（近7天）</h3>
+            <canvas id="lineChart" height="200"></canvas>
+        </div>
+
+        <!-- 渠道分布 -->
+        <div class="chart-card">
+            <h3>流量来源</h3>
+            <canvas id="pieChart" height="200"></canvas>
+        </div>
+
+        <!-- 柱状图 -->
+        <div class="chart-card span-2">
+            <h3>各页面访问量</h3>
+            <canvas id="barChart" height="180"></canvas>
+        </div>
+
+        <!-- 热门页面列表 -->
+        <div class="list-card span-2">
+            <h3>热门页面</h3>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div class="list-item-dot" style="background: #38bdf8;"></div>
+                    <span class="list-item-name">首页</span>
+                </div>
+                <span class="list-item-value">4,521</span>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div class="list-item-dot" style="background: #a78bfa;"></div>
+                    <span class="list-item-name">产品详情</span>
+                </div>
+                <span class="list-item-value">2,847</span>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div class="list-item-dot" style="background: #34d399;"></div>
+                    <span class="list-item-name">博客文章</span>
+                </div>
+                <span class="list-item-value">1,923</span>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div class="list-item-dot" style="background: #fbbf24;"></div>
+                    <span class="list-item-name">定价页面</span>
+                </div>
+                <span class="list-item-value">1,456</span>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div class="list-item-dot" style="background: #f87171;"></div>
+                    <span class="list-item-name">联系我们</span>
+                </div>
+                <span class="list-item-value">892</span>
+            </div>
+        </div>
+
+        <!-- 目标完成度 -->
+        <div class="chart-card span-2">
+            <h3>季度目标</h3>
+            <div class="progress-item">
+                <div class="progress-header"><span>用户增长</span><span>78%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width: 78%; background: linear-gradient(90deg, #38bdf8, #818cf8);"></div></div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-header"><span>收入目标</span><span>62%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width: 62%; background: linear-gradient(90deg, #34d399, #22d3ee);"></div></div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-header"><span>客户满意度</span><span>91%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width: 91%; background: linear-gradient(90deg, #fbbf24, #f97316);"></div></div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-header"><span>市场覆盖</span><span>45%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width: 45%; background: linear-gradient(90deg, #a78bfa, #f472b6);"></div></div>
+            </div>
+        </div>
+
+        <!-- 地区分布 -->
+        <div class="list-card span-2">
+            <h3>地区分布 Top 5</h3>
+            <div class="list-item">
+                <div class="list-item-left"><div class="list-item-dot" style="background: #38bdf8;"></div><span class="list-item-name">广东</span></div>
+                <span class="list-item-value">2,341</span>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left"><div class="list-item-dot" style="background: #a78bfa;"></div><span class="list-item-name">北京</span></div>
+                <span class="list-item-value">1,892</span>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left"><div class="list-item-dot" style="background: #34d399;"></div><span class="list-item-name">上海</span></div>
+                <span class="list-item-value">1,654</span>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left"><div class="list-item-dot" style="background: #fbbf24;"></div><span class="list-item-name">浙江</span></div>
+                <span class="list-item-value">1,287</span>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left"><div class="list-item-dot" style="background: #f87171;"></div><span class="list-item-name">江苏</span></div>
+                <span class="list-item-value">987</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 40px;"></div>
+
+    <a href="../../index.html" class="back-link" title="返回作品集">←</a>
+
+    <script>
+        // 更新时间
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString('zh-CN');
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // 数据集
+        const data = {
+            line: { labels: ['周一','周二','周三','周四','周五','周六','周日'], values: [1200, 1900, 1500, 2200, 1800, 2400, 2100] },
+            bar: { labels: ['首页','产品','博客','定价','关于','联系'], values: [4500, 2800, 1900, 1400, 900, 600] },
+            pie: { labels: ['搜索引擎','直接访问','社交媒体','外部链接'], values: [40, 25, 20, 15], colors: ['#38bdf8','#a78bfa','#34d399','#fbbf24'] }
+        };
+
+        // 折线图
+        function drawLineChart() {
+            const canvas = document.getElementById('lineChart');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.offsetWidth * dpr;
+            canvas.height = 200 * dpr;
+            ctx.scale(dpr, dpr);
+            const w = canvas.offsetWidth, h = 200;
+            const pad = { top: 20, right: 20, bottom: 30, left: 50 };
+            const chartW = w - pad.left - pad.right;
+            const chartH = h - pad.top - pad.bottom;
+            const maxVal = Math.max(...data.line.values) * 1.1;
+
+            ctx.strokeStyle = '#334155'; ctx.lineWidth = 0.5;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.top + (chartH / 4) * i;
+                ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+                ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif'; ctx.textAlign = 'right';
+                ctx.fillText(Math.round(maxVal - (maxVal / 4) * i), pad.left - 8, y + 4);
+            }
+
+            ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+            data.line.labels.forEach((label, i) => {
+                const x = pad.left + (chartW / (data.line.labels.length - 1)) * i;
+                ctx.fillText(label, x, h - 8);
+            });
+
+            const gradient = ctx.createLinearGradient(0, pad.top, 0, pad.top + chartH);
+            gradient.addColorStop(0, 'rgba(56,189,248,0.3)');
+            gradient.addColorStop(1, 'rgba(56,189,248,0)');
+
+            ctx.beginPath();
+            data.line.values.forEach((val, i) => {
+                const x = pad.left + (chartW / (data.line.values.length - 1)) * i;
+                const y = pad.top + chartH - (val / maxVal) * chartH;
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+            ctx.lineTo(pad.left + chartW, pad.top + chartH);
+            ctx.lineTo(pad.left, pad.top + chartH);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            ctx.beginPath();
+            data.line.values.forEach((val, i) => {
+                const x = pad.left + (chartW / (data.line.values.length - 1)) * i;
+                const y = pad.top + chartH - (val / maxVal) * chartH;
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+            ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2.5; ctx.stroke();
+
+            data.line.values.forEach((val, i) => {
+                const x = pad.left + (chartW / (data.line.values.length - 1)) * i;
+                const y = pad.top + chartH - (val / maxVal) * chartH;
+                ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#0f172a'; ctx.fill();
+                ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.stroke();
+            });
+        }
+
+        // 柱状图
+        function drawBarChart() {
+            const canvas = document.getElementById('barChart');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.offsetWidth * dpr;
+            canvas.height = 180 * dpr;
+            ctx.scale(dpr, dpr);
+            const w = canvas.offsetWidth, h = 180;
+            const pad = { top: 10, right: 20, bottom: 30, left: 50 };
+            const chartW = w - pad.left - pad.right;
+            const chartH = h - pad.top - pad.bottom;
+            const maxVal = Math.max(...data.bar.values) * 1.1;
+            const barW = chartW / data.bar.values.length * 0.6;
+            const gap = chartW / data.bar.values.length;
+            const colors = ['#38bdf8','#a78bfa','#34d399','#fbbf24','#f87171','#818cf8'];
+
+            data.bar.values.forEach((val, i) => {
+                const x = pad.left + gap * i + (gap - barW) / 2;
+                const barH = (val / maxVal) * chartH;
+                const y = pad.top + chartH - barH;
+                const gradient = ctx.createLinearGradient(x, y, x, pad.top + chartH);
+                gradient.addColorStop(0, colors[i]);
+                gradient.addColorStop(1, colors[i] + '44');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.roundRect(x, y, barW, barH, [4, 4, 0, 0]);
+                ctx.fill();
+                ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+                ctx.fillText(data.bar.labels[i], x + barW / 2, h - 8);
+            });
+        }
+
+        // 饼图
+        function drawPieChart() {
+            const canvas = document.getElementById('pieChart');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.offsetWidth * dpr;
+            canvas.height = 200 * dpr;
+            ctx.scale(dpr, dpr);
+            const w = canvas.offsetWidth, h = 200;
+            const cx = w / 2, cy = h / 2 - 10;
+            const r = Math.min(w, h) / 2 - 30;
+            const innerR = r * 0.55;
+            let startAngle = -Math.PI / 2;
+            const total = data.pie.values.reduce((a, b) => a + b, 0);
+
+            data.pie.values.forEach((val, i) => {
+                const sliceAngle = (val / total) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, startAngle, startAngle + sliceAngle);
+                ctx.arc(cx, cy, innerR, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = data.pie.colors[i];
+                ctx.fill();
+                startAngle += sliceAngle;
+            });
+
+            const legendY = h - 16;
+            let legendX = 10;
+            data.pie.labels.forEach((label, i) => {
+                ctx.fillStyle = data.pie.colors[i];
+                ctx.fillRect(legendX, legendY - 8, 10, 10);
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '11px sans-serif';
+                ctx.fillText(`${label} ${data.pie.values[i]}%`, legendX + 14, legendY);
+                legendX += ctx.measureText(`${label} ${data.pie.values[i]}%`).width + 24;
+            });
+        }
+
+        function drawAll() { drawLineChart(); drawBarChart(); drawPieChart(); }
+        drawAll();
+        window.addEventListener('resize', drawAll);
+    </script>
+</body>
+</html>

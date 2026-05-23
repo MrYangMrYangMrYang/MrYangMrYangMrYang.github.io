@@ -1,0 +1,44 @@
+/* ========================================
+   粒子交互画布 - 样式表
+   ======================================== */
+
+/* 基础重置 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a1a; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+canvas { display: block; }
+
+/* 顶部信息 */
+.info-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; padding: 16px 28px; background: linear-gradient(180deg, rgba(10,10,26,0.9) 0%, transparent 100%); pointer-events: none; }
+.info-bar > * { pointer-events: auto; }
+.info-title { color: rgba(255,255,255,0.7); font-size: 0.85rem; font-weight: 600; }
+.info-title span { color: #818cf8; }
+.info-stats { display: flex; gap: 20px; }
+.stat { color: rgba(255,255,255,0.4); font-size: 0.75rem; }
+.stat strong { color: rgba(255,255,255,0.7); font-weight: 600; }
+
+/* 控制面板 */
+.controls { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 10px; background: rgba(30,30,60,0.8); backdrop-filter: blur(12px); padding: 12px 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); }
+.ctrl-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); padding: 8px 18px; border-radius: 10px; cursor: pointer; font-size: 0.82rem; font-family: inherit; transition: all 0.3s; }
+.ctrl-btn:hover { background: rgba(129,140,248,0.2); border-color: #818cf8; color: #818cf8; }
+.ctrl-btn.active { background: rgba(129,140,248,0.25); border-color: #818cf8; color: #818cf8; }
+
+/* 提示 */
+.hint { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255,255,255,0.15); font-size: 1.2rem; font-weight: 600; pointer-events: none; transition: opacity 1s; z-index: 5; text-align: center; }
+
+/* 返回按钮 */
+.back-link { position: fixed; bottom: 24px; right: 24px; background: rgba(129,140,248,0.3); color: rgba(255,255,255,0.8); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1rem; border: 1px solid rgba(129,140,248,0.3); transition: all 0.3s; z-index: 99; }
+.back-link:hover { background: rgba(129,140,248,0.5); transform: scale(1.1); }
+
+/* ========================================
+   响应式适配
+   ======================================== */
+@media (max-width: 600px) {
+    .info-bar { padding: 12px 16px; }
+    .info-title { font-size: 0.75rem; }
+    .info-stats { gap: 12px; }
+    .stat { font-size: 0.7rem; }
+    .controls { padding: 10px 14px; gap: 6px; bottom: 16px; }
+    .ctrl-btn { padding: 6px 12px; font-size: 0.75rem; }
+    .hint { font-size: 0.95rem; }
+    .back-link { width: 40px; height: 40px; bottom: 16px; right: 16px; font-size: 1rem; }
+}

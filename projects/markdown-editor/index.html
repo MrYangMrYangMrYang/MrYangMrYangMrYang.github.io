@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown 在线编辑器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header">
+        <div class="header-left">
+            <h1><span>MD</span> Editor</h1>
+            <span class="header-hint">实时预览 · 本地渲染</span>
+        </div>
+    </div>
+
+    <!-- 工具栏 -->
+    <div class="toolbar">
+        <button class="tool-btn" onclick="insertMarkdown('heading1')" title="一级标题">H1</button>
+        <button class="tool-btn" onclick="insertMarkdown('heading2')" title="二级标题">H2</button>
+        <button class="tool-btn" onclick="insertMarkdown('heading3')" title="三级标题">H3</button>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" onclick="insertMarkdown('bold')" title="加粗"><b>B</b></button>
+        <button class="tool-btn" onclick="insertMarkdown('italic')" title="斜体"><i>I</i></button>
+        <button class="tool-btn" onclick="insertMarkdown('strike')" title="删除线"><s>S</s></button>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" onclick="insertMarkdown('code')" title="行内代码">&lt;/&gt;</button>
+        <button class="tool-btn" onclick="insertMarkdown('codeblock')" title="代码块">{ }</button>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" onclick="insertMarkdown('link')" title="链接">🔗</button>
+        <button class="tool-btn" onclick="insertMarkdown('image')" title="图片">🖼</button>
+        <div class="tool-sep"></div>
+        <button class="tool-btn" onclick="insertMarkdown('ul')" title="无序列表">• 列表</button>
+        <button class="tool-btn" onclick="insertMarkdown('ol')" title="有序列表">1. 列表</button>
+        <button class="tool-btn" onclick="insertMarkdown('quote')" title="引用">❝ 引用</button>
+        <button class="tool-btn" onclick="insertMarkdown('hr')" title="分割线">——</button>
+        <button class="tool-btn" onclick="insertMarkdown('table')" title="表格">⊞ 表格</button>
+    </div>
+
+    <!-- 编辑区域 -->
+    <div class="editor-wrap">
+        <div class="pane">
+            <div class="pane-header"><span>Markdown</span><span class="dot"></span></div>
+            <textarea id="editor" placeholder="在这里输入 Markdown 内容..." spellcheck="false"></textarea>
+        </div>
+        <div class="divider"></div>
+        <div class="pane">
+            <div class="pane-header"><span>Preview</span><span class="dot"></span></div>
+            <div id="preview" class="md"></div>
+        </div>
+    </div>
+
+    <!-- 状态栏 -->
+    <div class="statusbar">
+        <span id="charCount">0 字符 · 0 行</span>
+        <span>Markdown 在线编辑器</span>
+    </div>
+
+    <a href="../../index.html" class="back-link" title="返回作品集">←</a>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const preview = document.getElementById('preview');
+        const charCount = document.getElementById('charCount');
+
+        const defaultContent = `# Markdown 编辑器
+
+欢迎使用 **Markdown 在线编辑器**！左侧输入，右侧实时预览。
+
+## 功能特性
+
+- 实时渲染预览
+- 工具栏快捷插入
+- 支持常用 Markdown 语法
+
+## 代码示例
+
+\`\`\`javascript
+function greet(name) {
+    return \`Hello, \${name}!\`;
+}
+console.log(greet('World'));
+\`\`\`
+
+## 引用
+
+> 好的工具让创作更高效，让思考更专注。
+
+## 表格
+
+| 功能 | 快捷键 | 说明 |
+|------|--------|------|
+| 加粗 | **B** | 包裹选中文字 |
+| 斜体 | *I* | 包裹选中文字 |
+| 代码 | \`Code\` | 行内代码标记 |
+
+---
+
+*开始编辑吧！* 🎉
+`;
+
+        function parseMarkdown(text) {
+            let html = text;
+            html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+            const codeBlocks = [];
+            html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
+                const index = codeBlocks.length;
+                codeBlocks.push(`<pre><code class="lang-${lang}">${code}</code></pre>`);
+                return `%%CODEBLOCK${index}%%`;
+            });
+
+            const inlineCodes = [];
+            html = html.replace(/`([^`]+)`/g, (match, code) => {
+                const index = inlineCodes.length;
+                inlineCodes.push(`<code>${code}</code>`);
+                return `%%INLINECODE${index}%%`;
+            });
+
+            html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            html = html.replace(/^---+$/gm, '<hr>');
+            html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+            html = html.replace(/<\/blockquote>\n<blockquote>/g, '\n');
+            html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+            html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+            html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+            html = html.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+            html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+            html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+
+            html = html.replace(/^(\|.+\|)\n(\|[-| :]+\|)\n((?:\|.+\|\n?)*)/gm, (match, header, separator, body) => {
+                const headers = header.split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+                const rows = body.trim().split('\n').map(row => {
+                    const cells = row.split('|').filter(c => c.trim()).map(c => `<td>${c.trim()}</td>`).join('');
+                    return `<tr>${cells}</tr>`;
+                }).join('');
+                return `<table><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
+            });
+
+            html = html.split('\n').map(line => {
+                const trimmed = line.trim();
+                if (!trimmed) return '';
+                if (trimmed.startsWith('<') || trimmed.startsWith('%%')) return line;
+                return `<p>${line}</p>`;
+            }).join('\n');
+
+            codeBlocks.forEach((block, i) => {
+                html = html.replace(`%%CODEBLOCK${i}%%`, block);
+            });
+            inlineCodes.forEach((code, i) => {
+                html = html.replace(`%%INLINECODE${i}%%`, code);
+            });
+
+            return html;
+        }
+
+        function updatePreview() {
+            const text = editor.value;
+            preview.innerHTML = parseMarkdown(text);
+            const chars = text.length;
+            const lines = text.split('\n').length;
+            charCount.textContent = `${chars} 字符 · ${lines} 行`;
+        }
+
+        editor.addEventListener('input', updatePreview);
+
+        editor.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                editor.value = editor.value.substring(0, start) + '    ' + editor.value.substring(end);
+                editor.selectionStart = editor.selectionEnd = start + 4;
+                updatePreview();
+            }
+        });
+
+        function insertMarkdown(type) {
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const selected = editor.value.substring(start, end);
+            let before = '', after = '', newCursorPos;
+
+            switch (type) {
+                case 'heading1': before = '# '; break;
+                case 'heading2': before = '## '; break;
+                case 'heading3': before = '### '; break;
+                case 'bold': before = '**'; after = '**'; break;
+                case 'italic': before = '*'; after = '*'; break;
+                case 'strike': before = '~~'; after = '~~'; break;
+                case 'code': before = '`'; after = '`'; break;
+                case 'codeblock': before = '```\n'; after = '\n```'; break;
+                case 'link': before = '['; after = '](url)'; break;
+                case 'image': before = '!['; after = '](url)'; break;
+                case 'ul': before = '- '; break;
+                case 'ol': before = '1. '; break;
+                case 'quote': before = '> '; break;
+                case 'hr': before = '\n---\n'; break;
+                case 'table': before = '\n| 列1 | 列2 | 列3 |\n|------|------|------|\n| 内容 | 内容 | 内容 |\n'; break;
+            }
+
+            const replacement = before + (selected || '') + after;
+            editor.value = editor.value.substring(0, start) + replacement + editor.value.substring(end);
+            newCursorPos = selected ? start + replacement.length : start + before.length;
+            editor.selectionStart = editor.selectionEnd = newCursorPos;
+            editor.focus();
+            updatePreview();
+        }
+
+        editor.value = defaultContent;
+        updatePreview();
+    </script>
+</body>
+</html>

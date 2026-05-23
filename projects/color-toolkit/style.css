@@ -1,0 +1,116 @@
+/* ========================================
+   色彩工具箱 - 样式表
+   ======================================== */
+
+/* 基础重置 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fafafa; color: #1a1a2e; }
+
+/* 头部 */
+.header { background: white; border-bottom: 1px solid #eee; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+.header h1 { font-size: 1.2rem; font-weight: 700; }
+.header h1 span { color: #e07a5f; }
+.header-hint { font-size: 0.8rem; color: #aaa; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+/* 区域 */
+.section { margin-bottom: 48px; }
+.section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid #eee; display: flex; align-items: center; gap: 8px; }
+.section-title::before { content: ''; width: 4px; height: 20px; background: #e07a5f; border-radius: 2px; }
+
+/* ====== 颜色选择器 ====== */
+.picker-area { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.picker-left { display: flex; flex-direction: column; gap: 20px; }
+.color-preview { width: 100%; aspect-ratio: 16/9; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: background 0.3s; position: relative; overflow: hidden; }
+.color-preview-text { position: absolute; bottom: 16px; left: 16px; background: rgba(0,0,0,0.4); color: white; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; backdrop-filter: blur(8px); }
+
+.slider-group { display: flex; flex-direction: column; gap: 16px; }
+.slider-row { display: flex; align-items: center; gap: 12px; }
+.slider-label { width: 20px; font-weight: 700; font-size: 0.9rem; text-align: center; }
+.slider-label.h { color: #e07a5f; }
+.slider-label.s { color: #22c55e; }
+.slider-label.l { color: #3b82f6; }
+.slider-wrap { flex: 1; position: relative; }
+input[type="range"] { -webkit-appearance: none; width: 100%; height: 12px; border-radius: 6px; outline: none; cursor: pointer; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: white; border: 3px solid #e07a5f; box-shadow: 0 2px 6px rgba(0,0,0,0.15); cursor: pointer; }
+.slider-hue { background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); }
+.slider-sat { background: linear-gradient(to right, #888, #e07a5f); }
+.slider-light { background: linear-gradient(to right, #000, #e07a5f, #fff); }
+.slider-value { width: 40px; text-align: right; font-size: 0.85rem; color: #666; font-weight: 600; }
+
+/* 色值输出 */
+.color-values { display: flex; flex-direction: column; gap: 10px; }
+.color-value-row { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid #eee; border-radius: 10px; padding: 10px 14px; }
+.color-value-label { font-size: 0.78rem; font-weight: 700; color: #999; width: 36px; text-transform: uppercase; }
+.color-value-text { flex: 1; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.88rem; color: #333; }
+.copy-btn { background: none; border: 1px solid #ddd; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 0.75rem; color: #888; transition: all 0.2s; font-family: inherit; }
+.copy-btn:hover { border-color: #e07a5f; color: #e07a5f; }
+.copy-btn.copied { border-color: #22c55e; color: #22c55e; }
+
+/* ====== 调色板生成器 ====== */
+.palette-controls { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.palette-btn { padding: 8px 18px; border-radius: 10px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 0.85rem; font-family: inherit; transition: all 0.2s; color: #555; }
+.palette-btn:hover { border-color: #e07a5f; color: #e07a5f; }
+.palette-btn.active { background: #e07a5f; color: white; border-color: #e07a5f; }
+.palette-type-label { font-size: 0.82rem; color: #999; }
+
+.palette-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.palette-swatch { flex: 1; min-width: 80px; height: 100px; border-radius: 12px; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+.palette-swatch:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+.palette-swatch-hex { font-size: 0.72rem; font-weight: 600; background: rgba(0,0,0,0.3); color: white; padding: 2px 8px; border-radius: 4px; align-self: flex-start; backdrop-filter: blur(4px); }
+
+/* ====== 对比度检测 ====== */
+.contrast-area { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.contrast-input { display: flex; flex-direction: column; gap: 10px; }
+.contrast-input label { font-size: 0.82rem; font-weight: 600; color: #888; }
+.contrast-color-input { display: flex; gap: 8px; align-items: center; }
+.contrast-color-input input[type="color"] { width: 44px; height: 44px; border: 2px solid #eee; border-radius: 10px; cursor: pointer; padding: 2px; }
+.contrast-color-input input[type="text"] { flex: 1; padding: 10px 14px; border: 2px solid #eee; border-radius: 10px; font-family: monospace; font-size: 0.88rem; outline: none; }
+.contrast-color-input input[type="text"]:focus { border-color: #e07a5f; }
+
+.contrast-result { background: white; border: 1px solid #eee; border-radius: 16px; padding: 24px; text-align: center; }
+.contrast-preview { padding: 20px; border-radius: 10px; margin-bottom: 16px; font-weight: 600; font-size: 1.1rem; }
+.contrast-ratio { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+.contrast-badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+.contrast-badge.pass { background: #dcfce7; color: #166534; }
+.contrast-badge.fail { background: #fee2e2; color: #991b1b; }
+.contrast-details { margin-top: 12px; font-size: 0.8rem; color: #888; }
+
+/* 返回按钮 */
+.back-link { position: fixed; bottom: 24px; right: 24px; background: #e07a5f; color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(224,122,95,0.4); transition: all 0.3s; z-index: 99; }
+.back-link:hover { transform: scale(1.1); }
+
+/* Toast */
+.toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1a1a2e; color: white; padding: 10px 20px; border-radius: 10px; font-size: 0.85rem; opacity: 0; transition: all 0.3s; z-index: 200; pointer-events: none; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ========================================
+   响应式适配
+   ======================================== */
+@media (max-width: 768px) {
+    .picker-area { grid-template-columns: 1fr; }
+    .contrast-area { grid-template-columns: 1fr; }
+    .palette-swatch { min-width: 60px; height: 80px; }
+    .container { padding: 24px 16px; }
+    .header { padding: 12px 16px; }
+}
+
+@media (max-width: 480px) {
+    .header-hint { display: none; }
+    .header h1 { font-size: 1rem; }
+    .container { padding: 16px 12px; }
+    .section-title { font-size: 1rem; }
+    .slider-row { gap: 8px; }
+    .slider-label { width: 16px; font-size: 0.8rem; }
+    .slider-value { width: 32px; font-size: 0.78rem; }
+    .color-value-row { padding: 8px 10px; }
+    .palette-btn { padding: 6px 12px; font-size: 0.78rem; }
+    .palette-swatch { min-width: 50px; height: 70px; padding: 6px; }
+    .palette-swatch-hex { font-size: 0.65rem; }
+    .contrast-color-input input[type="color"] { width: 36px; height: 36px; }
+    .contrast-color-input input[type="text"] { padding: 8px 10px; font-size: 0.82rem; }
+    .contrast-result { padding: 16px; }
+    .contrast-ratio { font-size: 1.6rem; }
+    .back-link { width: 40px; height: 40px; bottom: 16px; right: 16px; font-size: 1rem; }
+}

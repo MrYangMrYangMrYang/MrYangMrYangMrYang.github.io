@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>色彩工具箱</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header">
+        <h1>🎨 <span>色彩</span>工具箱</h1>
+        <span class="header-hint">HSL 选色 · 调色板 · 对比度检测</span>
+    </div>
+
+    <div class="container">
+        <!-- 颜色选择器 -->
+        <div class="section">
+            <h2 class="section-title">颜色选择器</h2>
+            <div class="picker-area">
+                <div class="picker-left">
+                    <div class="color-preview" id="colorPreview">
+                        <span class="color-preview-text" id="previewHex">#E07A5F</span>
+                    </div>
+                    <div class="slider-group">
+                        <div class="slider-row">
+                            <span class="slider-label h">H</span>
+                            <div class="slider-wrap"><input type="range" class="slider-hue" id="hueSlider" min="0" max="360" value="16"></div>
+                            <span class="slider-value" id="hueValue">16°</span>
+                        </div>
+                        <div class="slider-row">
+                            <span class="slider-label s">S</span>
+                            <div class="slider-wrap"><input type="range" class="slider-sat" id="satSlider" min="0" max="100" value="72"></div>
+                            <span class="slider-value" id="satValue">72%</span>
+                        </div>
+                        <div class="slider-row">
+                            <span class="slider-label l">L</span>
+                            <div class="slider-wrap"><input type="range" class="slider-light" id="lightSlider" min="0" max="100" value="63"></div>
+                            <span class="slider-value" id="lightValue">63%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-values" id="colorValues"></div>
+            </div>
+        </div>
+
+        <!-- 调色板生成器 -->
+        <div class="section">
+            <h2 class="section-title">调色板生成器</h2>
+            <div class="palette-controls">
+                <span class="palette-type-label">配色方案：</span>
+                <button class="palette-btn active" data-type="analogous">类似色</button>
+                <button class="palette-btn" data-type="complementary">互补色</button>
+                <button class="palette-btn" data-type="triadic">三角色</button>
+                <button class="palette-btn" data-type="split">分裂互补</button>
+                <button class="palette-btn" data-type="monochromatic">单色</button>
+            </div>
+            <div class="palette-row" id="paletteRow"></div>
+        </div>
+
+        <!-- 对比度检测 -->
+        <div class="section">
+            <h2 class="section-title">对比度检测 (WCAG)</h2>
+            <div class="contrast-area">
+                <div class="contrast-input">
+                    <label>前景色（文字）</label>
+                    <div class="contrast-color-input">
+                        <input type="color" id="fgColor" value="#1a1a2e">
+                        <input type="text" id="fgText" value="#1a1a2e" maxlength="7">
+                    </div>
+                    <label>背景色</label>
+                    <div class="contrast-color-input">
+                        <input type="color" id="bgColor" value="#ffffff">
+                        <input type="text" id="bgText" value="#ffffff" maxlength="7">
+                    </div>
+                </div>
+                <div class="contrast-result" id="contrastResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <a href="../../index.html" class="back-link" title="返回作品集">←</a>
+
+    <script>
+        function hslToRgb(h, s, l) {
+            s /= 100; l /= 100;
+            const c = (1 - Math.abs(2 * l - 1)) * s;
+            const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+            const m = l - c / 2;
+            let r, g, b;
+            if (h < 60) { r = c; g = x; b = 0; }
+            else if (h < 120) { r = x; g = c; b = 0; }
+            else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; }
+            else if (h < 300) { r = x; g = 0; b = c; }
+            else { r = c; g = 0; b = x; }
+            return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)];
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+        }
+
+        function hexToRgb(hex) {
+            hex = hex.replace('#', '');
+            if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+            return [parseInt(hex.substr(0, 2), 16), parseInt(hex.substr(2, 2), 16), parseInt(hex.substr(4, 2), 16)];
+        }
+
+        function luminance(r, g, b) {
+            const [rs, gs, bs] = [r, g, b].map(c => {
+                c /= 255;
+                return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+            });
+            return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+        }
+
+        function contrastRatio(rgb1, rgb2) {
+            const l1 = luminance(...rgb1);
+            const l2 = luminance(...rgb2);
+            return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => toast.classList.remove('show'), 1500);
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`已复制: ${text}`);
+            }).catch(() => {
+                showToast('复制失败');
+            });
+        }
+
+        const hueSlider = document.getElementById('hueSlider');
+        const satSlider = document.getElementById('satSlider');
+        const lightSlider = document.getElementById('lightSlider');
+
+        function updateColor() {
+            const h = parseInt(hueSlider.value);
+            const s = parseInt(satSlider.value);
+            const l = parseInt(lightSlider.value);
+            const [r, g, b] = hslToRgb(h, s, l);
+            const hex = rgbToHex(r, g, b);
+
+            document.getElementById('colorPreview').style.background = hex;
+            document.getElementById('previewHex').textContent = hex.toUpperCase();
+            document.getElementById('hueValue').textContent = h + '°';
+            document.getElementById('satValue').textContent = s + '%';
+            document.getElementById('lightValue').textContent = l + '%';
+
+            document.querySelector('.slider-sat').style.background = `linear-gradient(to right, hsl(${h},0%,${l}%), hsl(${h},100%,${l}%))`;
+            document.querySelector('.slider-light').style.background = `linear-gradient(to right, hsl(${h},${s}%,0%), hsl(${h},${s}%,50%), hsl(${h},${s}%,100%))`;
+
+            const valuesHtml = [
+                { label: 'HEX', value: hex.toUpperCase() },
+                { label: 'RGB', value: `rgb(${r}, ${g}, ${b})` },
+                { label: 'HSL', value: `hsl(${h}, ${s}%, ${l}%)` },
+                { label: 'RGBA', value: `rgba(${r}, ${g}, ${b}, 1)` },
+            ].map(item => `
+                <div class="color-value-row">
+                    <span class="color-value-label">${item.label}</span>
+                    <span class="color-value-text">${item.value}</span>
+                    <button class="copy-btn" onclick="copyText('${item.value}')">复制</button>
+                </div>
+            `).join('');
+            document.getElementById('colorValues').innerHTML = valuesHtml;
+
+            updatePalette();
+        }
+
+        hueSlider.addEventListener('input', updateColor);
+        satSlider.addEventListener('input', updateColor);
+        lightSlider.addEventListener('input', updateColor);
+
+        let paletteType = 'analogous';
+
+        document.querySelectorAll('.palette-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                paletteType = btn.dataset.type;
+                updatePalette();
+            });
+        });
+
+        function generatePalette(h, s, l, type) {
+            const colors = [];
+            switch (type) {
+                case 'analogous':
+                    for (let i = -2; i <= 2; i++) colors.push([(h + i * 30 + 360) % 360, s, l]);
+                    break;
+                case 'complementary':
+                    colors.push([h, s, l]);
+                    colors.push([h, Math.max(s - 20, 0), Math.min(l + 15, 100)]);
+                    colors.push([(h + 180) % 360, s, l]);
+                    colors.push([(h + 180) % 360, Math.max(s - 20, 0), Math.min(l + 15, 100)]);
+                    colors.push([h, Math.max(s - 40, 10), Math.min(l + 30, 95)]);
+                    break;
+                case 'triadic':
+                    colors.push([h, s, l]);
+                    colors.push([(h + 120) % 360, s, l]);
+                    colors.push([(h + 240) % 360, s, l]);
+                    colors.push([h, Math.max(s - 25, 10), Math.min(l + 20, 90)]);
+                    colors.push([(h + 120) % 360, Math.max(s - 25, 10), Math.min(l + 20, 90)]);
+                    break;
+                case 'split':
+                    colors.push([h, s, l]);
+                    colors.push([(h + 150) % 360, s, l]);
+                    colors.push([(h + 210) % 360, s, l]);
+                    colors.push([h, Math.max(s - 20, 10), Math.min(l + 15, 90)]);
+                    colors.push([(h + 180) % 360, Math.max(s - 30, 10), Math.min(l + 20, 90)]);
+                    break;
+                case 'monochromatic':
+                    for (let i = 0; i < 5; i++) colors.push([h, s, Math.max(20, Math.min(l - 30 + i * 15, 90))]);
+                    break;
+            }
+            return colors;
+        }
+
+        function updatePalette() {
+            const h = parseInt(hueSlider.value);
+            const s = parseInt(satSlider.value);
+            const l = parseInt(lightSlider.value);
+            const colors = generatePalette(h, s, l, paletteType);
+
+            const row = document.getElementById('paletteRow');
+            row.innerHTML = colors.map(([ch, cs, cl]) => {
+                const [r, g, b] = hslToRgb(ch, cs, cl);
+                const hex = rgbToHex(r, g, b);
+                const textColor = cl > 55 ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)';
+                return `<div class="palette-swatch" style="background:${hex};" onclick="copyText('${hex.toUpperCase()}')">
+                    <span class="palette-swatch-hex" style="color:${textColor};background:${cl > 55 ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.3)'}">${hex.toUpperCase()}</span>
+                </div>`;
+            }).join('');
+        }
+
+        const fgColor = document.getElementById('fgColor');
+        const bgColor = document.getElementById('bgColor');
+        const fgText = document.getElementById('fgText');
+        const bgText = document.getElementById('bgText');
+
+        function updateContrast() {
+            const fg = fgColor.value;
+            const bg = bgColor.value;
+            fgText.value = fg;
+            bgText.value = bg;
+
+            const fgRgb = hexToRgb(fg);
+            const bgRgb = hexToRgb(bg);
+            const ratio = contrastRatio(fgRgb, bgRgb);
+            const ratioFixed = ratio.toFixed(2);
+
+            const aaLarge = ratio >= 3;
+            const aaNormal = ratio >= 4.5;
+            const aaaLarge = ratio >= 4.5;
+            const aaaNormal = ratio >= 7;
+
+            const result = document.getElementById('contrastResult');
+            result.innerHTML = `
+                <div class="contrast-preview" style="background:${bg};color:${fg};">
+                    Aa 示例文字预览
+                </div>
+                <div class="contrast-ratio" style="color:${ratio >= 4.5 ? '#22c55e' : ratio >= 3 ? '#f59e0b' : '#ef4444'}">${ratioFixed}:1</div>
+                <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                    <span class="contrast-badge ${aaNormal ? 'pass' : 'fail'}">AA 正文 ${aaNormal ? '✓' : '✗'}</span>
+                    <span class="contrast-badge ${aaLarge ? 'pass' : 'fail'}">AA 大字 ${aaLarge ? '✓' : '✗'}</span>
+                    <span class="contrast-badge ${aaaNormal ? 'pass' : 'fail'}">AAA 正文 ${aaaNormal ? '✓' : '✗'}</span>
+                    <span class="contrast-badge ${aaaLarge ? 'pass' : 'fail'}">AAA 大字 ${aaaLarge ? '✓' : '✗'}</span>
+                </div>
+                <div class="contrast-details">WCAG 2.1 标准要求：AA 正文 ≥ 4.5:1 · AA 大字 ≥ 3:1 · AAA 正文 ≥ 7:1</div>
+            `;
+        }
+
+        fgColor.addEventListener('input', updateContrast);
+        bgColor.addEventListener('input', updateContrast);
+        fgText.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(fgText.value)) { fgColor.value = fgText.value; updateContrast(); } });
+        bgText.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(bgText.value)) { bgColor.value = bgText.value; updateContrast(); } });
+
+        updateColor();
+        updateContrast();
+    </script>
+</body>
+</html>

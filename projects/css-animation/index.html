@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 动效实验室</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header">
+        <h1>CSS 动效实验室</h1>
+        <p>纯 CSS 实现 · 无 JavaScript · 探索动画的无限可能</p>
+    </div>
+
+    <div class="container">
+        <!-- Loading 动画 -->
+        <section>
+            <h2 class="section-title">Loading 动画</h2>
+            <div class="loading-grid">
+                <div class="loading-card">
+                    <div class="spinner"></div>
+                    <span>旋转圆环</span>
+                </div>
+                <div class="loading-card">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <span>弹跳圆点</span>
+                </div>
+                <div class="loading-card">
+                    <div class="pulse-ring"></div>
+                    <span>脉冲扩散</span>
+                </div>
+                <div class="loading-card">
+                    <div class="progress-bar"></div>
+                    <span>滑动进度</span>
+                </div>
+                <div class="loading-card">
+                    <div class="flip-square"></div>
+                    <span>翻转方块</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hover 效果 -->
+        <section>
+            <h2 class="section-title">Hover 交互效果</h2>
+            <div class="hover-grid">
+                <div class="hover-card hover-scale">
+                    <span>缩放渐显</span>
+                </div>
+                <div class="hover-card hover-border">
+                    <span>渐变描边</span>
+                </div>
+                <div class="hover-card hover-slide">
+                    <span>底部滑入</span>
+                </div>
+                <div class="hover-card hover-shine">
+                    <span>光泽扫过</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 文字动画 -->
+        <section>
+            <h2 class="section-title">文字动画</h2>
+            <div class="text-demos">
+                <div class="text-demo">
+                    <div class="text-demo-label">打字机效果</div>
+                    <div class="typewriter">CSS Animation is powerful!</div>
+                </div>
+                <div class="text-demo">
+                    <div class="text-demo-label">渐变流动</div>
+                    <div class="gradient-text">Gradient Flow Text</div>
+                </div>
+                <div class="text-demo">
+                    <div class="text-demo-label">波浪弹跳</div>
+                    <div class="wave-text" id="waveText"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 视差浮动 -->
+        <section>
+            <h2 class="section-title">视差浮动</h2>
+            <div class="parallax-section">
+                <div class="parallax-layer"></div>
+                <div class="parallax-layer"></div>
+                <div class="parallax-layer"></div>
+                <div class="parallax-text">纯 CSS 视差浮动效果</div>
+            </div>
+        </section>
+    </div>
+
+    <div style="height: 60px;"></div>
+
+    <a href="../../index.html" class="back-link" title="返回作品集">←</a>
+
+    <script>
+        // 生成波浪文字（仅生成DOM，动画纯CSS）
+        const text = 'WAVE MOTION';
+        const container = document.getElementById('waveText');
+        text.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.animationDelay = `${i * 0.08}s`;
+            container.appendChild(span);
+        });
+    </script>
+</body>
+</html>

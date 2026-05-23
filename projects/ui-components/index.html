@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI 组件工坊</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header">
+        <h1>🧩 <span>UI</span> 组件工坊</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 暗色模式</button>
+    </div>
+
+    <div class="container">
+        <!-- 按钮 -->
+        <div class="section">
+            <h2 class="section-title">按钮 Button</h2>
+            <div class="component-label">变体</div>
+            <div class="component-row">
+                <button class="btn btn-primary">主要按钮</button>
+                <button class="btn btn-success">成功</button>
+                <button class="btn btn-warning">警告</button>
+                <button class="btn btn-danger">危险</button>
+                <button class="btn btn-outline">描边</button>
+                <button class="btn btn-ghost">幽灵</button>
+            </div>
+            <div class="component-label" style="margin-top:20px;">尺寸</div>
+            <div class="component-row" style="align-items: center;">
+                <button class="btn btn-primary btn-sm">小号</button>
+                <button class="btn btn-primary">默认</button>
+                <button class="btn btn-primary btn-lg">大号</button>
+            </div>
+            <div class="component-label" style="margin-top:20px;">状态</div>
+            <div class="component-row">
+                <button class="btn btn-primary" disabled>禁用状态</button>
+                <button class="btn btn-primary">✓ 带图标</button>
+            </div>
+        </div>
+
+        <!-- 输入框 -->
+        <div class="section">
+            <h2 class="section-title">输入框 Input</h2>
+            <div class="component-row">
+                <div class="input-group">
+                    <label class="input-label">用户名</label>
+                    <input class="input" type="text" placeholder="请输入用户名">
+                    <span class="input-hint">2-20 个字符</span>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">邮箱</label>
+                    <input class="input" type="email" placeholder="example@mail.com">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">密码</label>
+                    <input class="input input-error" type="password" placeholder="至少 8 位" value="123">
+                    <span class="input-hint error">密码长度不足 8 位</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 卡片 -->
+        <div class="section">
+            <h2 class="section-title">卡片 Card</h2>
+            <div class="component-row">
+                <div class="card">
+                    <div class="card-img">🎨</div>
+                    <div class="card-body">
+                        <h3>设计系统</h3>
+                        <p>统一的设计语言与组件规范，确保产品体验一致性。</p>
+                        <div class="card-footer">
+                            <span class="tag tag-primary">设计</span>
+                            <button class="btn btn-primary btn-sm">查看</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-img" style="background: linear-gradient(135deg, #34d399, #22d3ee);">⚡</div>
+                    <div class="card-body">
+                        <h3>性能优化</h3>
+                        <p>组件按需加载与懒渲染，首屏加载速度提升 40%。</p>
+                        <div class="card-footer">
+                            <span class="tag tag-success">性能</span>
+                            <button class="btn btn-primary btn-sm">查看</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 标签 -->
+        <div class="section">
+            <h2 class="section-title">标签 Tag</h2>
+            <div class="component-row">
+                <span class="tag tag-default">默认</span>
+                <span class="tag tag-primary">主要</span>
+                <span class="tag tag-success">成功</span>
+                <span class="tag tag-warning">警告</span>
+                <span class="tag tag-danger">危险</span>
+            </div>
+        </div>
+
+        <!-- 开关 -->
+        <div class="section">
+            <h2 class="section-title">开关 Switch</h2>
+            <div class="component-row" style="align-items: center; gap: 24px;">
+                <label class="switch"><input type="checkbox" checked><span class="switch-slider"></span></label>
+                <label class="switch"><input type="checkbox"><span class="switch-slider"></span></label>
+            </div>
+        </div>
+
+        <!-- 提示框 -->
+        <div class="section">
+            <h2 class="section-title">提示框 Alert</h2>
+            <div class="alert alert-info"><span class="alert-icon">ℹ️</span><span>这是一条信息提示，用于展示一般性说明内容。</span></div>
+            <div class="alert alert-success"><span class="alert-icon">✅</span><span>操作成功！数据已保存到服务器。</span></div>
+            <div class="alert alert-warning"><span class="alert-icon">⚠️</span><span>注意：您的账户余额不足，请及时充值。</span></div>
+            <div class="alert alert-danger"><span class="alert-icon">❌</span><span>错误：网络连接失败，请检查网络设置后重试。</span></div>
+        </div>
+
+        <!-- 模态框 -->
+        <div class="section">
+            <h2 class="section-title">模态框 Modal</h2>
+            <button class="btn btn-primary" onclick="openModal()">打开模态框</button>
+        </div>
+    </div>
+
+    <!-- 模态框 -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal">
+            <h3>确认操作</h3>
+            <p>你确定要执行此操作吗？此操作不可撤销，请谨慎考虑后确认。</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="closeModal()">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <a href="../../index.html" class="back-link" title="返回作品集">←</a>
+
+    <script>
+        // 主题切换
+        function toggleTheme() {
+            const body = document.documentElement;
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.querySelector('.theme-toggle').textContent = isDark ? '🌙 暗色模式' : '☀️ 亮色模式';
+            localStorage.setItem('ui-theme', isDark ? 'light' : 'dark');
+        }
+
+        // 初始化主题
+        const savedTheme = localStorage.getItem('ui-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'dark') document.querySelector('.theme-toggle').textContent = '☀️ 亮色模式';
+
+        // 模态框
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+        function closeModal(e) {
+            if (e && e.target !== e.currentTarget) return;
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
