@@ -28,8 +28,8 @@
         <button class="tool-btn" onclick="insertMarkdown('code')" title="行内代码">&lt;/&gt;</button>
         <button class="tool-btn" onclick="insertMarkdown('codeblock')" title="代码块">{ }</button>
         <div class="tool-sep"></div>
-        <button class="tool-btn" onclick="insertMarkdown('link')" title="链接">🔗</button>
-        <button class="tool-btn" onclick="insertMarkdown('image')" title="图片">🖼</button>
+        <button class="tool-btn" onclick="insertMarkdown('link')" title="链接">Link</button>
+        <button class="tool-btn" onclick="insertMarkdown('image')" title="图片">Img</button>
         <div class="tool-sep"></div>
         <button class="tool-btn" onclick="insertMarkdown('ul')" title="无序列表">• 列表</button>
         <button class="tool-btn" onclick="insertMarkdown('ol')" title="有序列表">1. 列表</button>
@@ -97,7 +97,7 @@ console.log(greet('World'));
 
 ---
 
-*开始编辑吧！* 🎉
+*开始编辑吧！*
 `;
 
         function parseMarkdown(text) {
