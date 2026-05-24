@@ -60,11 +60,11 @@
 
 ## 预览方式
 
-- 🌐 **在线预览**：[https://MrYangMrYangMrYang.github.io](https://MrYangMrYangMrYang.github.io)
-- 💻 **本地预览**：直接在浏览器中打开 `index.html` 即可，无需构建工具或服务器
+- **在线预览**：[https://MrYangMrYangMrYang.github.io](https://MrYangMrYangMrYang.github.io)
+- **本地预览**：直接在浏览器中打开 `index.html` 即可，无需构建工具或服务器
 
 ## 联系方式
 
-- 📧 邮箱：yg329958@foxmail.com
-- 💬 微信：Mr_Y329958（添加请注明来意）
-- 🌐 GitHub：[MrYangMrYangMrYang](https://github.com/MrYangMrYangMrYang?tab=repositories)
+- 邮箱：yg329958@foxmail.com
+- 微信：Mr_Y329958（添加请注明来意）
+- GitHub：[MrYangMrYangMrYang](https://github.com/MrYangMrYangMrYang?tab=repositories)
