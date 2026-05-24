@@ -31,7 +31,7 @@
 
 | 项目 | 路径 | 说明 |
 |------|------|------|
-| UrbanStay 品牌页 | [projects/urban-stay/](projects/urban-stay/) | 现代品牌落地页，Flex/Grid 综合运用 |
+| UrbanStay 落地页 | [projects/urban-stay/](projects/urban-stay/) | 现代风格落地页，Flex/Grid 综合运用 |
 | CSS 动效实验室 | [projects/css-animation/](projects/css-animation/) | Loading / Hover / 视差等纯 CSS 动画合集 |
 | 数据仪表盘 | [projects/dashboard/](projects/dashboard/) | Canvas 图表绘制与数据可视化 |
 | UI 组件工坊 | [projects/ui-components/](projects/ui-components/) | 按钮/输入框/模态框等组件库，支持主题切换 |

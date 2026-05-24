@@ -1,5 +1,5 @@
 /* ========================================
-   UrbanStay 品牌页 - 样式表
+   UrbanStay 落地页 - 样式表
    ======================================== */
 
 /* 基础重置 */
@@ -33,7 +33,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; c
 .btn-outline:hover { border-color: #e07a5f; color: #e07a5f; }
 .hero-visual { display: flex; justify-content: center; }
 .hero-card { width: 320px; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
-.hero-card-img { height: 200px; background: linear-gradient(135deg, #e07a5f, #f2cc8f); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+.hero-card-img { height: 200px; background: linear-gradient(135deg, #e07a5f, #f2cc8f); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.hero-card-img::before { content: ''; width: 80px; height: 60px; border: 3px solid rgba(255,255,255,0.5); border-radius: 4px; position: relative; z-index: 1; }
+.hero-card-img::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%; background: rgba(255,255,255,0.08); clip-path: polygon(0 60%, 100% 30%, 100% 100%, 0% 100%); }
 .hero-card-body { padding: 24px; }
 .hero-card-body h3 { font-size: 1.1rem; margin-bottom: 8px; }
 .hero-card-body p { color: #888; font-size: 0.85rem; }
@@ -47,7 +49,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; c
 .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 .feature-card { padding: 36px; border-radius: 16px; background: #fafafa; border: 1px solid #f0f0f0; transition: all 0.3s; }
 .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); }
-.feature-icon { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #e07a5f, #f2cc8f); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+.feature-icon { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #e07a5f, #f2cc8f); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; }
+
+/* 核心地段 - 定位针图标 */
+.icon-location::before { content: ''; width: 12px; height: 12px; border-radius: 50%; border: 2.5px solid white; position: relative; z-index: 1; }
+.icon-location::after { content: ''; width: 8px; height: 10px; background: white; position: absolute; bottom: 10px; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+
+/* 品质装修 - 钻石图标 */
+.icon-quality::before { content: ''; width: 20px; height: 20px; background: white; clip-path: polygon(50% 0%, 100% 35%, 50% 100%, 0% 35%); }
+
+/* 安全安心 - 盾牌图标 */
+.icon-security::before { content: ''; width: 18px; height: 22px; background: white; clip-path: polygon(50% 0%, 100% 20%, 100% 65%, 50% 100%, 0% 65%, 0% 20%); }
+.icon-security::after { content: ''; width: 8px; height: 6px; border-bottom: 2.5px solid #e07a5f; border-left: 2.5px solid #e07a5f; position: absolute; top: 50%; transform: translateY(-60%) rotate(-45deg); }
 .feature-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
 .feature-card p { color: #777; font-size: 0.9rem; line-height: 1.6; }
 
@@ -56,7 +69,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; c
 .rooms-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .room-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: all 0.3s; }
 .room-card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-.room-img { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+.room-img { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.room-img::before { content: ''; width: 60px; height: 44px; border: 2.5px solid rgba(255,255,255,0.45); border-radius: 3px; position: relative; z-index: 1; }
+.room-img::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 35%; background: rgba(255,255,255,0.06); clip-path: polygon(0 50%, 100% 20%, 100% 100%, 0% 100%); }
 .room-img.r1 { background: linear-gradient(135deg, #81b29a, #3d405b); }
 .room-img.r2 { background: linear-gradient(135deg, #f2cc8f, #e07a5f); }
 .room-img.r3 { background: linear-gradient(135deg, #3d405b, #81b29a); }

@@ -593,6 +593,10 @@ section:last-child {
     margin-bottom: 12px;
     font-size: 0.78rem;
     line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .tech-stack {
@@ -776,6 +780,12 @@ footer {
 /* ========================================
    响应式适配
    ======================================== */
+@media (max-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     .nav-menu-btn {
         display: flex;

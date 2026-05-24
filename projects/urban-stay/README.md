@@ -1,6 +1,6 @@
-# UrbanStay 品牌页
+# UrbanStay 落地页
 
-现代品牌落地页，展示 Flex/Grid 布局与响应式设计能力。
+现代风格落地页，展示 Flex/Grid 布局与响应式设计能力。
 
 ## 技术栈
 
