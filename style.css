@@ -120,16 +120,46 @@ section:last-child {
     border-bottom: none;
 }
 
+.section-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
 .section-title {
     font-size: 2rem;
     font-weight: 700;
     letter-spacing: -0.02em;
-    margin-bottom: 48px;
-    text-align: center;
-    background: linear-gradient(120deg, #0f172a, #334155);
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed, #2563eb);
+    background-size: 200% auto;
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
+    animation: titleShimmer 4s ease-in-out infinite;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    margin: 12px auto 0;
+}
+
+.section-subtitle {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+}
+
+@keyframes titleShimmer {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 200% center; }
 }
 
 /* ========================================
@@ -692,9 +722,12 @@ footer {
         font-size: 1rem;
     }
 
+    .section-header {
+        margin-bottom: 32px;
+    }
+
     .section-title {
         font-size: 1.6rem;
-        margin-bottom: 32px;
     }
 
     section {
@@ -812,9 +845,20 @@ body.dark .nav-links a:hover {
 }
 
 body.dark .section-title {
-    background: linear-gradient(120deg, #e2e8f0, #94a3b8);
+    background: linear-gradient(135deg, #60a5fa, #a78bfa, #60a5fa);
+    background-size: 200% auto;
     background-clip: text;
     -webkit-background-clip: text;
+    color: transparent;
+    animation: titleShimmer 4s ease-in-out infinite;
+}
+
+body.dark .section-title::after {
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+}
+
+body.dark .section-subtitle {
+    color: #94a3b8;
 }
 
 body.dark .hero-badge {
